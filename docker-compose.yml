@@ -7,7 +7,8 @@ services:
     applications:
       image: tianon/true
       volumes:
-        - ${APPLICATION}:/var/www
+        - ${APPLICATION}:/var/www/tesseract
+        - ${APPLICATION}/web/app:/app
 
 ### Workspace Utilities Container ###########################
 
@@ -45,6 +46,13 @@ services:
       networks:
         - frontend
         - backend
+      environment:
+        - WP_ENV=${WP_ENV}
+        - XDEBUG_CONFIG=remote_host=10.254.254.254
+        - XDEBUG_CONFIG=xdebug.remote_host=10.254.254.254
+        - XDEBUG_CONFIG=remote_enable=true
+        - XDEBUG_CONFIG=xdebug.remote_enable=true
+        - DB_HOST=10.254.254.254
 
 ### PHP-FPM Container #######################################
 

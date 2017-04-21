@@ -36,17 +36,6 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #   - INSTALL_ZIP_ARCHIVE=true
 #
 
-#####################################
-# SOAP:
-#####################################
-
-ARG INSTALL_SOAP=false
-RUN if [ ${INSTALL_SOAP} = true ]; then \
-    # Install the soap extension
-    apt-get -y update && \
-    apt-get -y install libxml2-dev php-soap && \
-    docker-php-ext-install soap \
-;fi
 
 #####################################
 # xDebug:
@@ -226,3 +215,17 @@ WORKDIR /var/www
 CMD ["php-fpm"]
 
 EXPOSE 9000
+
+#####################################
+# SOAP:
+#####################################
+USER root
+ARG INSTALL_SOAP=false
+RUN if [ ${INSTALL_SOAP} = true ]; then \
+    # Install the soap extension
+    apt-get update && \
+    apt-get -y install --no-install-recommends \
+    libxml2-dev \
+    php-soap && \
+    docker-php-ext-install soap \
+;fi
